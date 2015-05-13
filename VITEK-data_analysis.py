@@ -10,7 +10,8 @@ import collections
 import numpy as np
 import matplotlib.pyplot as plt
 import multiPlots as mp
-import percentchange as pc
+import calculations as calcs
+import dataFilters as filt
 
 #creat path to data
 path=os.path.dirname(__file__)
@@ -45,38 +46,94 @@ for condition in os.listdir(dataDir):
                 file.close() 
 
 
-sumAll=np.zeros(64,)
+#add filter
+#filteredSets = filt.removeSixth(dataSet)   
+#filteredSets = filt.removeSixth(dataSet)   
+#filteredSets = filt.allRuns(dataSet)   
+#filteredSets = filt.filterMod(dataSet,'TX1')
 
 filteredSets = []
-for mod in ['TX1', 'TX3']:
-    #filteredSets.append([mod + ' only:           ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].condition == 'Data_Unsealed']])
-    #filteredSets.append([mod + ' only:           ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].condition == 'Data_Unsealed']])
-    filteredSets.append([mod + ' only:           ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].condition == 'Data_Unfilled' and dataSet[j].runNum < 6 ]])
-    filteredSets.append([mod + ' only:           ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].condition == 'Data_Unsealed' and dataSet[j].runNum < 6 ]])
-    filteredSets.append([mod + ' only:           ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].condition == 'Data_HeaterOff' and dataSet[j].runNum < 6 ]])
-    filteredSets.append([mod + ' only:           ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].condition == 'Data_Normal' and dataSet[j].runNum < 6 ]])
 
-   
+filteredSet = ['', filt.condition(dataSet,'Data_Unfilled')]
+filteredSet = ['', filt.excludeRun(filteredSet[1],6)]
+filteredSet = ['Unfilled ', filt.filterMod(filteredSet[1],'TX1')]
+filteredSets.append(filteredSet)
+
+filteredSet = ['', filt.condition(dataSet,'Data_Unsealed')]
+filteredSet = ['', filt.excludeRun(filteredSet[1],6)]
+filteredSet = ['UnSealed ', filt.filterMod(filteredSet[1],'TX1')]
+filteredSets.append(filteredSet)
+
+filteredSet = ['', filt.condition(dataSet,'Data_HeaterOff')]
+filteredSet = ['', filt.excludeRun(filteredSet[1],6)]
+filteredSet = ['HeaterOff ', filt.filterMod(filteredSet[1],'TX1')]
+filteredSets.append(filteredSet)
+#
+filteredSet = ['', filt.condition(dataSet,'Data_Normal')]
+filteredSet = ['', filt.excludeRun(filteredSet[1],6)]
+filteredSet = ['Normal ', filt.filterMod(filteredSet[1],'TX1')]
+filteredSets.append(filteredSet)
+
+
+
 for j in filteredSets:
+    sumAll=np.zeros(64,)
+    sumPcnt=np.zeros(64,)
+    sumNegPcnt=np.zeros(64,)
+    sumRange=np.zeros(64,)
+    sumMin=np.zeros(64,)
+    sumMax=np.zeros(64,)
+    maxVec=[]
+    minVec=[]
+    rangeVec=[]
+    averageVec=[]
+    sumPcntVec=[]
+    sumNegPcntVec=[]
+    print()
     for i in j[1]:   #loop through the data in the Jth filtered set
-        data=dataSet[i]
-        print(data[1:])
+        #print(i[1:]);
         #mp.multiPlot(data[0])
-        pcnt=pc.calcPC(data[0])
-        print(np.minimum(pc.calcSumPC(pcnt,7),30*np.ones(64)))
-        sumAll += np.minimum(pc.calcSumPC(pcnt,7),30*np.ones(64))
-        
-        #plt.figure()
-        #plot sum percent change for first 7 reads
-        #mp.pcntChangeLayout(pc.calcSumPC(pcnt,7),30)
-        #plot maximum percent change
-        #plt.figure()
-        #mp.pcntChangeLayout(pcnt.max(0),8)
-    plt.figure()
-    print(len(j[1]))
-    average=sumAll/len(j[1])
-    print(sumAll)
-    print(average)
-    mp.pcntChangeLayout(average,40)    
+        #convert to percent change
+        pcnt=calcs.calcPC(i[0])
+        negPcnt=calcs.negCalcPC(i[0])
+        #sum all from this filter
+        sumPcntVec.append(calcs.calcSum(pcnt,7))
+        sumNegPcntVec.append(np.absolute(calcs.calcSum(negPcnt,7)))
+        averageVec.append(calcs.calcSum(i[0],len(i[0]))/len(i[0]))
+        rangeVec.append(calcs.calcRange(i[0]))        
+        minVec.append(calcs.calcMin(i[0]))
+        maxVec.append(calcs.calcMax(i[0]))
 
+#calculate average values             
+    aveSumPcnt=np.array(sumPcntVec).sum(0)
+    aveSumNegPcnt=np.array(sumNegPcntVec).sum(0)
+    aveRaw=np.array(averageVec).sum(0)
+    aveRange=np.array(rangeVec).sum(0)       
+    aveMin=np.array(minVec).sum(0)
+    aveMax=np.array(maxVec).sum(0)
+#calculate std deviations
+    sumPcntStd=np.array(sumPcntVec).std(0)
+    sumNegPcntStd=np.array(sumNegPcntVec).std(0)
+    rawStd=np.array(averageVec).std(0)
+    rangeStd=np.array(rangeVec).std(0)       
+    minStd=np.array(minVec).std(0)
+    maxStd=np.array(maxVec).std(0)
+#calculate ranges
+    sumPcntRange     = np.array(sumPcntVec).max(0)    - np.array(sumPcntVec).min(0)
+    sumNegPcntRange  = np.array(sumNegPcntVec).max(0) - np.array(sumNegPcntVec).min(0)
+    rawRange      = np.array(averageVec).max(0)    - np.array(averageVec).min(0)
+    rangeRange    = np.array(rangeVec).max(0)      - np.array(rangeVec).min(0)      
+    minRange      = np.array(minVec).max(0)        - np.array(minVec).min(0)
+    maxRange      = np.array(maxVec).max(0)        - np.array(maxVec).min(0)
 
+    #plot average
+    #mp.rowOfPlots(aveRaw,aveRange,aveMin,aveMax,aveSumPcnt,aveSumNegPcnt,len(j[1]),'Ave ' + j[0]);
+    #plot std deviation
+  #  mp.rowOfPlots(rawStd,rangeStd,minStd,maxStd,sumPcntStd,sumNegPcntStd,len(j[1]),'Std ' + j[0]);
+  #  #plot std range
+  #  mp.rowOfPlots(rawRange,rangeRange,minRange,maxRange,sumPcntRange,sumNegPcntRange,len(j[1]),'Rng ' + j[0]);
+    
+    #multiplot
+ #   multiPlot(read)    
+selectedSet=filt.selRun(dataSet,'Data_Normal','Optic3','TX1',1)
+mp.multiPlot(selectedSet)

@@ -64,13 +64,22 @@ for mod in ['TX1' , 'TX3']:
     filteredSets.append([mod + ' no control:     ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and not dataSet[j].control]])
     filteredSets.append([mod + ' control:        ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].control]])
     filteredSets.append([mod + ' OS4:            ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].optic == 'OS4' ]])
-    filteredSets.append([mod + ' OS5             ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].optic == 'OS5' ]])
+    filteredSets.append([mod + ' OS5:            ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].optic == 'OS5' ]])
     filteredSets.append([mod + ' OS4 control:    ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].optic == 'OS4' and dataSet[j].control]])
     filteredSets.append([mod + ' OS5 control:    ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].optic == 'OS5' and dataSet[j].control]])
     filteredSets.append([mod + ' OS4 no control: ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].optic == 'OS4' and not dataSet[j].control]])
     filteredSets.append([mod + ' OS5 no control: ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].optic == 'OS5' and not dataSet[j].control]])
-
-
+    filteredSets.append([mod + ' cavity 1:       ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].runNum == 1 ]])
+    filteredSets.append([mod + ' cavity 2:       ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].runNum == 2 ]])
+    filteredSets.append([mod + ' cavity 3:       ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].runNum == 3 ]])
+    filteredSets.append([mod + ' cavity 4:       ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].runNum == 4 ]])
+    filteredSets.append([mod + ' cavity 5:       ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].runNum == 5 ]])
+    filteredSets.append([mod + ' cavity 6:       ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].runNum == 6 ]])
+    filteredSets.append([mod + ' cavity 7:       ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].runNum == 7 ]])
+    filteredSets.append([mod + ' cavity 8:       ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].runNum == 8 ]])
+    filteredSets.append([mod + ' std cavity:     ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].runNum == 9 ]])
+    filteredSets.append([mod + ' std cavity:     ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].runNum == 10 ]])
+    filteredSets.append([mod + ' std cavity:     ',[j for j in range(0,len(dataSet)) if dataSet[j].TXmod == mod and dataSet[j].runNum == 11 ]])
 
 
 for j in filteredSets:
