@@ -50,8 +50,14 @@ def excludeRun(dataSet,run):
     for i in [j for j in range(0,len(dataSet)) if dataSet[j].runNum != run ]:
         filteredSet.append(dataSet[i])
     return filteredSet    
+    
+def selectedRuns(dataSet,runs):
+    filteredSet = []
+    for i in [j for j in range(0,len(dataSet)) if dataSet[j].runNum in runs ]:
+        filteredSet.append(dataSet[i])
+    return filteredSet 
 
-def condition(dataSet,condition):
+def filterCondition(dataSet,condition):
     filteredSet = []
     for i in [j for j in range(0,len(dataSet)) if dataSet[j].condition == condition ]:
         filteredSet.append(dataSet[i])
@@ -62,8 +68,23 @@ def selRun(dataSet,condition,optic,mod,runNum):
     for i in [j for j in range(0,len(dataSet)) if dataSet[j].condition == condition and dataSet[j].Optic == optic and dataSet[j].TXmod == mod and dataSet[j].runNum == runNum ]:
         filteredSet.append(dataSet[i])
     if len(filteredSet) == 0:
-        print('ERROR:  empty set')
+        print('ERROR:  empty set from SelRun')
         sys.exit()
         return
     else:
         return filteredSet[0][0]  
+
+def getSet(dataSet,condition,mod,optic,runs):
+    filteredSet = dataSet
+    if ( condition != None ):
+        filteredSet = filterCondition(filteredSet,condition)
+    if ( mod != None ):
+        filteredSet = filterMod(filteredSet,mod)
+    if ( optic != None ): 
+        filteredSet = filterOptic(filteredSet,optic)
+    if ( runs != None ):
+        filteredSet = selectedRuns(filteredSet,runs)
+        
+
+    return filteredSet    
+    

@@ -135,5 +135,20 @@ for j in filteredSets:
     
     #multiplot
  #   multiPlot(read)    
-selectedSet=filt.selRun(dataSet,'Data_Normal','Optic3','TX1',1)
-mp.multiPlot(selectedSet)
+
+
+#for i in range(1,2):
+#    selectedSet=filt.selRun(dataSet,'Data_Normal','Optic5','TX1',i)
+#    #mp.multiPlot(selectedSet,0,4095)
+#    mp.multiPlot(calcs.calcPC(selectedSet),0,10)
+#    plt.figure()
+#    mp.layoutPlot(calcs.calcSum(calcs.calcPC(selectedSet),7),grayMin=None,grayMax=None)
+#    #plt.title(title + 'Max')
+
+#compare two sets
+set1 = selectedSet=filt.selRun(dataSet,'Data_Normal','Optic5','TX1',2)
+set2 = selectedSet=filt.selRun(dataSet,'Data_Normal','Optic5','TX1',3)
+print(set1.shape)
+print(set2.shape)
+
+

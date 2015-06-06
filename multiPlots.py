@@ -5,24 +5,27 @@ import os
 from numpy import arange
 # gather data into a reads X wells matrix
 
-def multiPlot(read):
+def multiPlot(read,min = None, max = None):
     plotRange = range(0,len(read))
     path=os.path.dirname(__file__)
     dataDir=os.path.join(path,'Data')
-    plt.axis('off')
+    #plt.axis('off')
     plt.figure(figsize=(10, 10))
 
     for i in range (1,65):
         #place read to match the layout of a card
-        ax = plt.subplot(8,8,((i-1)%8)*8 + int((i-1)/8) + 1)
+        #ax = plt.subplot(8,8,((i-1)%8)*8 + int((i-1)/8) + 1)
+        ax = plt.subplot2grid((8,8),(-i%8,int((i-1)/8)))        
         ax.set_xticklabels([])
         ax.set_yticklabels([])
         ax.set_title(str(i),y=0.5)
+        ax.set_ylim(min,max)
         ax.plot(plotRange,read[:,i-1]) #,plotRange,plotRange)
     plt.savefig(dataDir + "test" + ".png")
     
 
 def layoutPlot(read,grayMin= None,grayMax= None):
+    """Test"""
     #sumPcntChange=read[0:numReads,:].sum(0).reshape(8,8).transpose()
     data=read.reshape(8,8).transpose()
     plt.pcolor(data,cmap='gray',vmin=grayMin,vmax=grayMax)
@@ -66,3 +69,5 @@ def rowOfPlots(Sum,Range,Min,Max,Pcnt,NegPcnt,Num,title):
     plt.subplot(1,6,6)
     layoutPlot(NegPcnt/Num,grayMin=0,grayMax=None)
     plt.title(title + 'Neg %change')
+    
+    
