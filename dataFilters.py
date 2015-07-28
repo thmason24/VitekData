@@ -57,6 +57,13 @@ def selectedRuns(dataSet,runs):
         filteredSet.append(dataSet[i])
     return filteredSet 
 
+def selectedRuns2(dataSet,file):
+    filteredSet = []
+    for i in [j for j in range(0,len(dataSet)) if dataSet[j].file == file ]:
+        filteredSet.append(dataSet[i])
+    return filteredSet 
+
+
 def filterCondition(dataSet,condition):
     filteredSet = []
     for i in [j for j in range(0,len(dataSet)) if dataSet[j].condition == condition ]:
@@ -72,7 +79,8 @@ def selRun(dataSet,condition,optic,mod,runNum):
         sys.exit()
         return
     else:
-        return filteredSet[0][0]  
+        return filteredSet[0][0]          
+        
 
 def getSet(dataSet,condition,mod,optic,runs):
     filteredSet = dataSet
