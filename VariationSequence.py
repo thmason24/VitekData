@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 import multiPlots as mp
 import calculations as calcs
 import dataFilters as filt
+import pylab as p
 
 
 #creat path to data
@@ -130,12 +131,24 @@ for inputs in [inputs1, inputs2, inputs3]:
             readStd = np.array(stdVec).mean(0)
             #total stdDev
             totalStd = np.array(totalVec).std() 
+
+            listOfData = np.array(aveVec).flatten()
+            #p.figure()
+            #p.hist(listOfData,50)
+            #plt.draw()
+            #plt.title(optic  )
+            #input("Press Enter to continue...")
+            
+            #wait = input("PRESS ENTER TO CONTINUE.")
             #the goal is to find the average of standard deviations of each well
-            stdPlt.append(totalStd.mean())
+            stdPlt.append(np.array(aveVec).std(0).mean())
+
+        
+            
         plt.plot(stdPlt, lw = 5,label = optic, c = inputs[5][opticIndex] )
         pylab.xticks(inputs[2],inputs[3])
         plt.ylabel('average sigma (RTU)')
         plt.title(inputs[4] +  '\nstd dev of all reads and runs, averaged over all wells')
         plt.legend(bbox_to_anchor=(1.3,1))
         plt.ylim((0,700))
-        
+# 

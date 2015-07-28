@@ -42,6 +42,8 @@ filteredSets = []
 TestDataSet = dataSetGP
 module = 'TX1'
 
+filteredSet = ['white', filt.filterCondition(dataSetWhite,'White Card')]
+filteredSets.append(filteredSet)
 
 resultSet   = ['Unfilled ' , filt.getSet(TestDataSet, 'Unfilled' , module, None , None)]
 filteredSets.append(resultSet)
@@ -56,9 +58,7 @@ resultSet   = ['Normal ',    filt.getSet(TestDataSet, 'Normal' , module, None , 
 filteredSets.append(resultSet)
 
 
-#import whtie card data
-filteredSet = ['white', filt.filterCondition(dataSetWhite,'White Card')]
-filteredSets.append(filteredSet)
+
 
 
 #set this to inhibit plots
@@ -114,7 +114,7 @@ for j in filteredSets:
     maxRange      = np.array(maxVec).max(0)        - np.array(maxVec).min(0)
 
     #plot average
-    mp.rowOfPlots(aveRaw,aveRange,aveMin,aveMax,aveSumPcnt,aveSumNegPcnt,len(j[1]),'Ave ' + j[0]);
+    mp.rowOfPlots(aveRaw,aveRange,None,None,aveSumPcnt,aveSumNegPcnt,len(j[1]),'Ave ' + j[0]);
     #plot std deviation
     #mp.rowOfPlots(rawStd,rangeStd,minStd,maxStd,sumPcntStd,sumNegPcntStd,len(j[1]),'Std ' + j[0]);
     #plot std range
@@ -124,12 +124,12 @@ for j in filteredSets:
     #multiPlot(read)    
 
 
-#for i in range(1,2):
-#    selectedSet=filt.selRun(dataSet,'Data_Normal','Optic5','TX1',i)
-#    #mp.multiPlot(selectedSet,0,4095)
-#    mp.multiPlot(calcs.calcPC(selectedSet),0,10)
-#    plt.figure()
-#    mp.layoutPlot(calcs.calcSum(calcs.calcPC(selectedSet),7),grayMin=None,grayMax=None)
-#    plt.title('Sum')
+for i in range(1,2):
+    selectedSet=filt.selRun(dataSetGN,'Data_Normal','Optic5','TX1',i)
+    #mp.multiPlot(selectedSet,0,4095)
+    mp.multiPlot(calcs.calcPC(selectedSet),0,10)
+    plt.figure()
+    mp.layoutPlot(calcs.calcSum(calcs.calcPC(selectedSet),7),grayMin=None,grayMax=None)
+    plt.title('Sum')
 
     

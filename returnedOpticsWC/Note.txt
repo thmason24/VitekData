@@ -1,0 +1,17 @@
+Same white card, 10 reads per OS, fast read is enabled
+
+Run1 MRA84050913 2144 HeadA 
+
+Run2 MRA84050913 2144 HeadB
+
+Run3 MRA84050321 2144 HeadA
+
+Run4 MRA84052719 2144 HeadB
+
+Run5 ODC4411015 2144 HeadA
+
+Run6 OSI1112187 2144 HeadB 
+
+Run7 ODC133213008 2144 HeadA
+
+Run8 ODC25012175 2144 HeadB 

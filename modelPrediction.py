@@ -26,6 +26,7 @@ dataSetGN = filt.excludeRun(dataSetGN,6)  # remove spurious last read
 dataSetGP = imp.extractConditionData(path,'AST-GP67/Data')
 dataSetGP_train = filt.selectedRuns(imp.extractConditionData(path,'AST-GP67/Data'),range(1,9))
 dataSetGP_crossVal = filt.selectedRuns(imp.extractConditionData(path,'AST-GP67/Data'),range(9,16))
+
 #lower index
 for j, i in enumerate(dataSetGP_crossVal):
     replaceWith = i._replace(runNum=i.runNum-8)
@@ -201,8 +202,12 @@ for i in range(1,2):
                 y=aveResultWellDict[opticResult][well]
                 prediction[indexPredict,indexResult,well]=(theta_array[well] * X)[0,0]
                 squareError = np.square(y-prediction)
+                
             
             Err[indexPredict,indexResult] = np.abs(prediction[indexPredict,indexResult,:] - aveResultWellDict[opticResult]).mean()
+            print(indexPredict, indexResult, Err[indexPredict,indexResult])
+            #print(np.abs(prediction[indexPredict,indexResult,:] - aveResultWellDict[opticResult]))
+
     plt.figure()
     plt.pcolor(Err,cmap='gray')#,vmin=0.8,vmax=1) 
     plt.colorbar()
@@ -243,12 +248,6 @@ xMax = max(xMaxes)
 xMin = min(xMins) 
 yMax = max(yMaxes)
 yMin = min(yMins) 
-
-
-
-#sys.exit()
-      
-
 
 for i in wellRange:
     ax = plt.subplot2grid((8,8),(-(i+1)%8,int((i)/8)))        

@@ -42,32 +42,61 @@ def layoutPlot(read,grayMin= None,grayMax= None):
     
 def rowOfPlots(Sum,Range,Min,Max,Pcnt,NegPcnt,Num,title):
         #new figure
+
+
+    plotCount = 6
+    if Sum is None:
+        plotCount -=1
+    if Range is None:
+        plotCount -=1
+    if Min is None:
+        plotCount -=1
+    if Max is None:
+        plotCount -=1
+    if Pcnt is None:
+        plotCount -=1
+    if NegPcnt is None:
+        plotCount -=1
+
     figureSize=2.6;
-    plt.figure(figsize=(figureSize*8, figureSize))
+    plt.figure(figsize=(figureSize*8*(plotCount/6), figureSize))
 
     #calcuate and plot average for each well
-    plt.subplot(1,6,1)
-    layoutPlot(Sum/Num,grayMin=None,grayMax=None)
-    plt.title(title + 'raw')
+    plotNum=0
+    if Sum is not None:
+        plotNum += 1
+        plt.subplot(1,plotCount,plotNum)
+        layoutPlot(Sum/Num,grayMin=None,grayMax=None)
+        plt.title(title + 'raw')
     #plot range    
-    plt.subplot(1,6,2)
-    layoutPlot(Range/Num,grayMin=None,grayMax=None)
-    plt.title(title + 'Range')
+    if Range is not None:
+        plotNum += 1
+        plt.subplot(1,plotCount,plotNum)
+        layoutPlot(Range/Num,grayMin=None,grayMax=None)
+        plt.title(title + 'Range')
     #plot min    
-    plt.subplot(1,6,3)
-    layoutPlot(Min/Num,grayMin=None,grayMax=None)
-    plt.title(title + 'Min')
+    if Min is not None:
+        plotNum += 1
+        plt.subplot(1,plotCount,plotNum)
+        layoutPlot(Min/Num,grayMin=None,grayMax=None)
+        plt.title(title + 'Min')
     #plot max    
-    plt.subplot(1,6,4)
-    layoutPlot(Max/Num,grayMin=None,grayMax=None)
-    plt.title(title + 'Max')
+    if Max is not None:
+        plotNum += 1
+        plt.subplot(1,plotCount,plotNum)    
+        layoutPlot(Max/Num,grayMin=None,grayMax=None)
+        plt.title(title + 'Max')
     #plot percent change
-    plt.subplot(1,6,5)
-    layoutPlot(Pcnt/Num,grayMin=0,grayMax=None)
-    plt.title(title + '%change')
+    if Pcnt is not None:
+        plotNum += 1
+        plt.subplot(1,plotCount,plotNum)
+        layoutPlot(Pcnt/Num,grayMin=0,grayMax=None)
+        plt.title(title + '%change')
     #plot negative percent change    
-    plt.subplot(1,6,6)
-    layoutPlot(NegPcnt/Num,grayMin=0,grayMax=None)
-    plt.title(title + 'Neg %change')
-    
+    if NegPcnt is not None:
+        plotNum += 1
+        plt.subplot(1,plotCount,plotNum)
+        layoutPlot(NegPcnt/Num,grayMin=0,grayMax=None)
+        plt.title(title + 'Neg %change')
+        
     

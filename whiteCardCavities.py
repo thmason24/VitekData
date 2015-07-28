@@ -9,6 +9,8 @@ import sys
 import os
 import collections
 import numpy as np
+import matplotlib as mp
+import pylab as p
 
 #creat path to data
 path=os.path.dirname(__file__)
@@ -98,3 +100,9 @@ for j in filteredSets:
 #    print(j[0] + 'Average ' + str(int(np.array(meanArray).mean().round())) + ' STDDEV ' + str(int(np.array(meanArray).std().round()))  + ' Range ' + str(int(Range.round())))
     print('{0:s}Average: {1:4d}    STDDEV:{2:4d}    Range:{3:4d} '.format(j[0], int(np.array(meanArray).mean().round()) ,  int(np.array(meanArray).std().round()) , int(Range.round())) )
 #    print()
+    
+dataset = [j for j in range(0,len(dataSet)) if dataSet[j].TXmod == 'TX1' and not dataSet[j].control]
+
+print(dataset)
+
+#p.hist(data, 50, normed=1)
